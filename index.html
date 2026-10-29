@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Laporan Peralatan - Geofisika Kepahiang</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0b3d73">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#eef2f7;--card:#fff;--fg:#1c2530;--mut:#66758a;--pri:#0b5cab;--hd:#0b3d73;--ok:#15803d;--bad:#b91c1c;--badbg:#fdeaea;--bd:#d8e0ea;--in:#fff}
+:root[data-t=dark]{--bg:#0e1623;--card:#1a2536;--fg:#e6ebf2;--mut:#93a3b8;--pri:#4c9aff;--hd:#0a1220;--ok:#4ade80;--bad:#ff8a8a;--badbg:#3b1d24;--bd:#2c3a50;--in:#0e1623}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--hd);color:#fff;padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;display:flex;align-items:center;gap:10px}
+header h1{font-size:17px;margin:0;flex:1;line-height:1.2}
+header small{display:block;font-weight:400;font-size:12px;opacity:.75}
+header button{background:none;border:1px solid #ffffff55;color:#fff;border-radius:10px;min-width:44px;height:40px;font-size:18px}
+main{max-width:760px;margin:0 auto;padding:12px 12px calc(86px + env(safe-area-inset-bottom))}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:6px}
+.st{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:8px 10px}
+.st span{display:block;font-size:11px;color:var(--mut)}.st b{font-size:22px}
+h3{margin:18px 4px 8px;font-size:15px;color:var(--pri)}
+.cat{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:8px;font-size:16px;min-height:52px}
+.cat i{font-style:normal;font-weight:700;font-size:13px;padding:4px 10px;border-radius:99px;background:#15803d22;color:var(--ok)}
+.cat.bad i{background:var(--badbg);color:var(--bad)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:10px}
+.bar{height:8px;background:var(--bd);border-radius:9px;overflow:hidden;margin:8px 0}.bar div{height:100%;background:var(--ok)}
+input,textarea{width:100%;font:inherit;color:var(--fg);background:var(--in);border:1px solid var(--bd);border-radius:10px;padding:11px 12px}
+input:focus,textarea:focus{outline:2px solid var(--pri);outline-offset:0}
+.tools{display:flex;gap:8px;align-items:center;margin:8px 0}.tools label{white-space:nowrap;font-size:14px;display:flex;gap:6px;align-items:center}
+.tools input[type=checkbox]{width:20px;height:20px}
+.row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.row.off{background:var(--badbg);border-color:#e9a5a5}
+.inf{flex:1;min-width:0}.inf b{font-size:16px}.pr{font-size:12px;color:var(--mut);margin-left:6px}
+.nm{font-size:13px;color:var(--mut);overflow-wrap:anywhere}.kt{font-size:13px;color:var(--bad);font-weight:600;overflow-wrap:anywhere}
+.sw{flex:none;width:62px;height:36px;border-radius:99px;border:0;background:#9aa7b8;position:relative;transition:background .15s}
+.sw:after{content:"OFF";position:absolute;right:9px;top:9px;font-size:12px;font-weight:700;color:#fff}
+.sw:before{content:"";position:absolute;left:3px;top:3px;width:30px;height:30px;border-radius:50%;background:#fff;transition:left .15s}
+.sw.on{background:var(--ok)}.sw.on:before{left:29px}.sw.on:after{content:"ON";left:9px;right:auto}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.b{flex:1 1 auto;min-height:46px;padding:0 16px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--fg);font:inherit;font-weight:600}
+.b.p{background:var(--pri);border-color:var(--pri);color:#fff}.b.g{background:#25d366;border-color:#25d366;color:#08331a}.b.d{color:var(--bad)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}.seg button{flex:1;min-height:46px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--fg);font:inherit;font-weight:600}
+.seg button.a{background:var(--pri);border-color:var(--pri);color:#fff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+label.l{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
+textarea{font:13px/1.45 ui-monospace,Consolas,monospace;min-height:48vh;resize:vertical}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--bd);display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:6}
+nav button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-weight:600;padding:12px 0;min-height:56px}
+nav button.a{color:var(--pri);box-shadow:inset 0 3px 0 var(--pri)}
+dialog{border:0;border-radius:16px;padding:16px;width:min(460px,94vw);background:var(--card);color:var(--fg)}
+dialog::backdrop{background:#0009}
+#toast{position:fixed;left:50%;bottom:calc(78px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#111c;color:#fff;padding:10px 16px;border-radius:99px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9;max-width:92vw}
+#toast.s{opacity:1}
+[hidden]{display:none!important}
+@media(max-width:380px){.stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header>
+ <button id="back" hidden aria-label="Kembali">←</button>
+ <h1 id="ttl">Laporan Peralatan<small>Stasiun Geofisika Kepahiang</small></h1>
+ <button id="thm" aria-label="Ganti tema">🌙</button>
+</header>
+<main>
+ <section id="v-list"></section>
+ <section id="v-det" hidden></section>
+ <section id="v-msg" hidden></section>
+</main>
+<nav>
+ <button id="n-list" class="a">Peralatan</button>
+ <button id="n-msg">Pesan WhatsApp</button>
+</nav>
+<dialog id="dlg">
+ <b id="dt" style="font-size:18px">Edit unit</b>
+ <label class="l">Kode / ID</label><input id="f-kode" autocomplete="off">
+ <label class="l">Nama / Lokasi</label><input id="f-nama" autocomplete="off">
+ <div class="two"><div><label class="l">Prioritas (mis. P-2)</label><input id="f-prio" autocomplete="off"></div>
+ <div><label class="l">Status</label><div class="seg" id="f-st"><button data-v="ON">ON</button><button data-v="OFF">OFF</button></div></div></div>
+ <label class="l">Keterangan</label><input id="f-ket" list="kets" autocomplete="off">
+ <datalist id="kets"><option>error power<option>error komunikasi<option>LCD error<option>UPS error<option>SSD Error<option>Datalogger error<option>digitizer rusak</datalist>
+ <div class="btns"><button class="b d" id="f-del">Hapus</button><button class="b" id="f-cancel">Batal</button><button class="b p" id="f-ok">Simpan</button></div>
+</dialog>
+<div id="toast"></div>
+<script>
+// ---------- DATA DEFAULT: kode|nama|prioritas|status(1=ON,0=OFF)|keterangan ----------
+function C(nama,style,txt){return{nama,mode:'count',style,unit:txt.trim().split('\n').map(l=>{const f=l.split('|');return{kode:f[0],nama:f[1],prio:f[2],st:f[3]=='1'?'ON':'OFF',ket:f[4]||''}})}}
+function T(nama,st='ON',ket=''){return{nama,mode:'single',st,ket}}
+function defaults(){return[
+{judul:'Peralatan Geofisika',kat:[
+C('Ina TEWS','space',`
+ABSM|Argamakmur,Bengkulu Utara,Bengkulu|P-2|1|
+APSSI|Air Periukan, Seluma, Bengkulu|P-1|1|
+BMSI|Bangko,Merangin,Jambi|P-1|1|
+EGSI|Station Enggano, Bengkulu, Indonesia (BMKG)|P-1|1|
+JMSI|Jangkat,Merangin,Jambi|P-1|0|error power
+KRJI|Station Kerinci, Sumatra|P-1|1|
+KSI|Station Kepahiang, Indonesia|P-2|1|
+LMJSI|Desa Sungai Lalang, Lembah Masurai, Merangin|P-2|1|
+MASI|Station Muara Aman, Bengkulu, Indonesia|P-2|1|
+MBBI|Muara Bungo,Bungo,Jambi|P-1|1|
+MBSM|Marga Sakti Seblat ,Bengkulu Utara,Bengkulu|P-1|1|
+MKBI|Station Muko-Muko, Bengkulu, Indonesia (BMKG)|P-2|0|error power
+MKSM|Muara Sahung,Kaur,Bengkulu|P-2|1|
+MNAI|Station Manna, Sumatra, Indonesia|P-1|1|
+RLBSI|Kantor BPBD Rejang Lebong, Selupu Rejang, Rejang Lebong|P-2|1|
+SKSM|Siulak Mukai,Kerinci,Jambi|P-2|0|error power
+SLSI|Station Sarolangun, Jambi Indonesia (BMKG)|P-1|1|
+TMSM|Teramang Jaya,Mukomuko,Bengkulu|P-2|0|error komunikasi
+UBSI|Station Bengkulu, Sumatra, Indonesia (BMKG)|P-2|1|
+UMKSI|Ujan Mas, Kepahiang, Bengkulu|P-1|1|
+UTSM|Ulu Talo,Seluma,Bengkulu|P-2|1|`),
+C('WRS','paren',`
+WRS1|Kantor BPBD Bengkulu Selatan||0|LCD error
+WRS2|Kantor SAR Bengkulu||1|
+WRS3|Kantor BPBD Kota Bengkulu||1|
+WRS4|Kantor BPBD Sungai Penuh||0|LCD error
+WRS5|Kantor BPBD Prov Bengkulu||0|SSD Error
+WRS6|Kantor BPBD Kabupaten Kerinci||1|
+WRS7|Stageof Bengkulu||1|
+WRS8|Kantor BPBD Kepahiang||1|
+WRS9|Kantor BPBD Kabupaten Bengkulu Utara||1|
+WRS10|Kantor Gubernur Bengkulu||0|UPS & LCD error
+WRS11|Kantor BPBD Kaur||0|LCD error
+WRS12|Kantor BPBD Seluma||1|
+WRS13|Kantor Bupati Bengkulu Utara||1|
+WRS14|Kantor BPBD Mukomuko||0|LCD error
+WRS15|Kantor BPBD Merangin||0|LCD error`),
+C('Sirine Rekayasa','space',`
+SRN1|Sport Center Pantai Panjang||1|
+SRN2|Kantor PMI Kota Bengkulu||1|
+SRN3|Kesbangpol Kota Bengkulu||1|`),
+C('Accelero Non Colo','space',`
+BEFA|Stasiun Meteorologi Klas III Fatmawati Bengkulu|P-3|1|
+BEKI|Stageof Kepahiang Bengkulu|P-3|1|
+BEPA|Stasiun Klimatologi Klas I PulauBaai Bengkulu|P-1|0|digitizer rusak. Peralatan dimatikan karena akan dilakukan renovasi gedung
+ESSN|Kantor BPBD Kab. Empat Lawang|P-3|1|
+JASE|Stasiun Klimatologi Klas IV Muaro Jambi|P-2|1|`),
+C('Accelero REIS','space',`
+BTSR|BENGKULU|P-3|0|
+IMSR|IPUH|P-3|0|
+ISSR|ILIR TALO|P-3|1|
+KBSR|KETAHUN|P-3|0|Error Komunikasi
+MBSR|MANNA|P-3|0|
+MKSR|MUARA SAHUNG|P-3|1|
+NBSR|NAPAL PUTIH|P-2|0|Komunikasi Error
+SSSR|SELUMA|P-3|0|`),
+C('Intensitymeter Realshake','space',`
+NBBBS|Kantor BPBD Provinsi Bengkulu|P-3|1|
+NBBSS|Kantor BPBD Kab. BengkuluSelatan|P-3|0|
+NBMBS|Kantor BPBD Muko Muko|P-3|1|
+NBRBS|Kantor BPBD Kab. Rejang Lebong|P-3|1|
+NBSBS|BPBD Kab. Seluma|P-3|1|
+NBUBS|Kantor BPBD Kab. Bengkulu Utara|P-3|0|UPS error
+NGBBS|Stageof Kepahiang|P-3|1|
+NKPBS|Stasiun Klimatologi Pulau Baai|P-3|1|
+NUBBS|FMIPA Universitas Bengkulu|P-3|1|`),
+C('Intensitymeter REIS','space',`
+NBL01|SMP Negeri 01 Bengkulu|P-3|1|
+NBL02|SMP Negeri 04 Bengkulu|P-3|1|
+NBL03|SD Negeri 11 Bengukulu|P-3|1|
+NBL04|RSUD Harapan dan Doa Kota Bengkulu|P-3|0|
+NBL05|Puskesmas Betungan - Bengkulu|P-3|0|Error Power
+NBL06|Kantor Walikota Bengkulu|P-3|1|
+NBL07|Kantor Radar Cuaca Bengkulu|P-3|1|
+NBL08|Kantor Camat Sungai Serut Kota|P-3|1|
+NBL09|Kantor Camat Kampung Melayu - Bengkulu|P-3|1|
+NBL10|SMAN 6 Bengkulu|P-3|1|
+NBL11|Balai Pengkajian Teknologi Pertanian (BPTP)|P-3|1|
+NBL12|Kantor Kelurahan Kandang Limun|P-3|1|
+NBL13|BPBD Bengukulu|P-3|1|
+NBL14|Puskesmas Beringin Raya Bengkulu|P-1|1|
+NBL15|Kelurahan Sumber Jaya|P-2|1|`),
+C('LD','space',`
+JBILD|Stasiun Meteorologi Kelas I Sultan Thaha Jambi||1|
+KPYLD|Stasiun Geofisika Kelas III Kepahiang||1|
+KRC LD|Stasiun Meteorologi Kelas III Kerinci||1|
+BAY LD|Stasiun Klimatologi Kelas I Bengkulu Pulau Baai||1|`),
+C('Prekursor Magnet','dash',`
+KPY|Sensor Magnet Prekursor Kepahiang||0|Datalogger error - Alat dibawa ke Jakarta untuk perbaikan (20 Juli 2026)
+MJB|Sensor Magnet Prekursor Muarojambi||0|Datalogger rusak - Alat dibawa ke Jakarta untuk perbaikan (20 Juli 2026)`),
+C('Tsunami Gauge','space',`
+BTBSI|Batu Tahu, Bengkulu||1|
+TBBSI|Pel. PT. Titan Batu Bara, Bengkulu||1|
+ENGSI|Pel. Malakoni. P. Enggano, Bengkulu||1|`),
+T('Seiscomp')]},
+{judul:'Peralatan Met-Klim',kat:[
+T('Anemometer'),T('Barometer'),T('Penakar Hujan Tipping Bucket'),T('Penakar Hujan Obs','Baik'),
+T('Penakar Hujan Hilman','Rusak'),T('Panci Penguapan','Baik'),T('Campbell Stokes','Baik'),
+T('Thermometer BK','Baik'),T('Thermometer BB','Baik'),T('Thermometer Max','Baik'),T('Thermometer Min','Baik')]}]}
+
+// ---------- STATE ----------
+const $=s=>document.querySelector(s),KEY='laporan_alat_v1',BULAN=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>s=='ON'||s=='Baik';
+let data=(()=>{try{const d=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(d)&&d.length)return d}catch(e){}return defaults()})();
+let view='list',sel=null,q='',onlyOff=false,tgl='',jam='',editI=-1,dst='ON';
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}};
+const cat=()=>data[sel[0]].kat[sel[1]];
+const cnt=c=>c.mode=='count'?[c.unit.filter(u=>u.st=='ON').length,c.unit.length]:[norm(c.st)?1:0,1];
+function now(){const d=new Date();tgl=`${d.getDate()} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;jam=String(d.getHours()).padStart(2,'0')+'.'+String(d.getMinutes()).padStart(2,'0')}
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('s');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('s'),2600)}
+
+// ---------- PESAN ----------
+function line(c,u){const k=(u.ket||'').trim();let s;
+ if(c.style=='paren')s=u.nama+(k?` (${k})`:'');
+ else if(c.style=='dash')s=u.kode+(k?` - ${k}`:'');
+ else s=u.kode+(u.prio?` (${u.prio})`:'')+(k?` ${k}`:'');
+ return '* '+s}
+function msg(){
+ const o=['Kepada Yth, Pimpinan',`Berikut Laporan peralatan Operasional Utama Stasiun Geofisika Kepahiang per ${tgl} Pukul ${jam} WIB`,''];
+ data.forEach(s=>{o.push(s.judul+':');s.kat.forEach((c,i)=>{const[a,b]=cnt(c);o.push(c.mode=='count'?`${i+1}. ${c.nama} : Total ${b} ON ${a}`:`${i+1}. ${c.nama} : ${c.st}`)});o.push('')});
+ o.push('Demikian laporan kami, semoga berkenan, terima kasih.');
+ const bl=[];
+ data.forEach(s=>s.kat.forEach(c=>{let l;
+  if(c.mode=='count')l=c.unit.filter(u=>u.st!='ON').map(u=>line(c,u));
+  else{const k=(c.ket||'').trim();l=(!norm(c.st)&&k)?['* '+k]:[]}
+  if(l.length)bl.push([c.nama,l])}));
+ if(bl.length){o.push('','Ket');bl.forEach(([n,l],i)=>{o.push(`${i+1}. ${n}`,...l,'')});o.pop()}
+ return o.join('\n')}
+
+// ---------- RENDER ----------
+function render(){
+ $('#v-list').hidden=view!='list';$('#v-det').hidden=view!='det';$('#v-msg').hidden=view!='msg';
+ $('#back').hidden=view!='det';
+ $('#n-list').classList.toggle('a',view!='msg');$('#n-msg').classList.toggle('a',view=='msg');
+ $('#ttl').innerHTML=view=='det'?esc(cat().nama):'Laporan Peralatan<small>Stasiun Geofisika Kepahiang</small>';
+ if(view=='list')rList();else if(view=='det')rDet();else rMsg();
+ scrollTo(0,0)}
+function rList(){
+ let ok=0,tot=0;data.forEach(s=>s.kat.forEach(c=>{const[a,b]=cnt(c);ok+=a;tot+=b}));
+ let h=`<div class="stats"><div class="st"><span>Total</span><b>${tot}</b></div><div class="st"><span>Normal</span><b style="color:var(--ok)">${ok}</b></div><div class="st"><span>Bermasalah</span><b style="color:var(--bad)">${tot-ok}</b></div><div class="st"><span>Tersedia</span><b>${tot?Math.round(ok/tot*100):0}%</b></div></div>`;
+ data.forEach((s,si)=>{h+=`<h3>${esc(s.judul)}</h3>`;s.kat.forEach((c,ci)=>{const[a,b]=cnt(c);
+  h+=`<button class="cat${a<b?' bad':''}" data-s="${si}" data-c="${ci}"><span>${ci+1}. ${esc(c.nama)}</span><i>${c.mode=='count'?a+' / '+b:esc(c.st)}</i></button>`})});
+ h+=`<div class="btns"><button class="b d" id="reset">Reset ke data awal</button></div>`;
+ $('#v-list').innerHTML=h}
+function rDet(){
+ const c=cat(),v=$('#v-det');
+ if(c.mode=='count'){
+  q='';onlyOff=false;
+  v.innerHTML=`<div class="card"><div id="sum"></div><div class="bar"><div id="pb"></div></div>
+  <div class="tools"><input id="q" type="search" placeholder="Cari kode atau nama…"><label><input type="checkbox" id="oo">Hanya OFF</label></div></div>
+  <div id="rows"></div>
+  <div class="btns"><button class="b" id="aon">Semua ON</button><button class="b" id="aoff">Semua OFF</button><button class="b p" id="add">+ Tambah unit</button></div>`;
+  rRows()}
+ else{
+  v.innerHTML=`<div class="card"><label class="l" style="margin-top:0">Status</label><div class="seg" id="ss">${['ON','OFF','Baik','Rusak'].map(s=>`<button data-v="${s}" class="${c.st==s?'a':''}">${s}</button>`).join('')}</div>
+  <label class="l">Keterangan</label><input id="sk" value="${esc(c.ket)}" placeholder="Muncul di bagian Ket bila status bukan ON/Baik" list="kets"></div>`}}
+function rRows(){
+ const c=cat(),ql=q.trim().toLowerCase(),[a,b]=cnt(c);
+ $('#sum').innerHTML=`<b>${a} dari ${b} unit ON</b> <span style="color:var(--mut)">• ${b-a} bermasalah</span>`;
+ $('#pb').style.width=(b?a/b*100:0)+'%';
+ let h='';c.unit.forEach((u,i)=>{
+  if(onlyOff&&u.st=='ON')return;
+  if(ql&&!`${u.kode} ${u.nama} ${u.ket}`.toLowerCase().includes(ql))return;
+  h+=`<div class="row${u.st!='ON'?' off':''}" data-i="${i}"><div class="inf"><b>${esc(u.kode)}</b>${u.prio?`<span class="pr">${esc(u.prio)}</span>`:''}<div class="nm">${esc(u.nama)}</div>${u.ket?`<div class="kt">${esc(u.ket)}</div>`:''}</div><button class="sw${u.st=='ON'?' on':''}" data-t="${i}" role="switch" aria-checked="${u.st=='ON'}" aria-label="Ubah status ${esc(u.kode)}"></button></div>`});
+ $('#rows').innerHTML=h||'<div class="card" style="color:var(--mut)">Tidak ada unit yang cocok.</div>'}
+function rMsg(){
+ $('#v-msg').innerHTML=`<div class="card"><div class="two"><div><label class="l" style="margin-top:0">Tanggal</label><input id="tg" value="${esc(tgl)}"></div><div><label class="l" style="margin-top:0">Pukul (WIB)</label><input id="jm" value="${esc(jam)}"></div></div>
+ <button class="b" id="now" style="width:100%;margin-top:10px">Pakai waktu sekarang</button></div>
+ <textarea id="ta" spellcheck="false"></textarea>
+ <div class="btns"><button class="b p" id="cp" style="flex-basis:100%">Salin pesan</button><button class="b g" id="wa">Kirim ke WhatsApp</button><button class="b" id="sh">Bagikan…</button><button class="b" id="dl">Simpan .txt</button></div>`;
+ $('#ta').value=msg()}
+
+// ---------- AKSI ----------
+function setView(v){view=v;render()}
+$('#n-list').onclick=()=>setView('list');$('#n-msg').onclick=()=>setView('msg');
+$('#back').onclick=()=>setView('list');
+$('#thm').onclick=()=>{const d=document.documentElement.dataset.t=='dark'?'light':'dark';document.documentElement.dataset.t=d;$('#thm').textContent=d=='dark'?'☀️':'🌙';try{localStorage.setItem('tema',d)}catch(e){}document.querySelector('meta[name=theme-color]').content=d=='dark'?'#0a1220':'#0b3d73'};
+$('#v-list').onclick=e=>{
+ const b=e.target.closest('.cat');if(b){sel=[+b.dataset.s,+b.dataset.c];setView('det');return}
+ if(e.target.id=='reset'&&confirm('Kembalikan semua data & status ke kondisi awal?')){data=defaults();save();render();toast('Data dikembalikan ke awal')}};
+$('#v-det').onclick=e=>{
+ const c=cat(),t=e.target;
+ const sw=t.closest('.sw');if(sw){const u=c.unit[+sw.dataset.t];u.st=u.st=='ON'?'OFF':'ON';save();rRows();return}
+ const row=t.closest('.row');if(row){openEdit(+row.dataset.i);return}
+ if(t.id=='aon'||t.id=='aoff'){c.unit.forEach(u=>u.st=t.id=='aon'?'ON':'OFF');save();rRows();return}
+ if(t.id=='add'){openEdit(-1);return}
+ const sg=t.closest('#ss button');if(sg){c.st=sg.dataset.v;save();rDet()}};
+$('#v-det').oninput=e=>{
+ if(e.target.id=='q'){q=e.target.value;rRows()}
+ else if(e.target.id=='sk'){cat().ket=e.target.value;save()}};
+$('#v-det').onchange=e=>{if(e.target.id=='oo'){onlyOff=e.target.checked;rRows()}};
+$('#v-msg').oninput=e=>{if(e.target.id=='tg'||e.target.id=='jm'){tgl=$('#tg').value.trim();jam=$('#jm').value.trim();$('#ta').value=msg()}};
+$('#v-msg').onclick=async e=>{
+ const id=e.target.id,txt=()=>$('#ta').value;
+ if(id=='now'){now();rMsg()}
+ else if(id=='cp'){try{await navigator.clipboard.writeText(txt())}catch(_){$('#ta').select();document.execCommand('copy')}toast('Pesan disalin. Tinggal tempel di WhatsApp')}
+ else if(id=='wa'){location.href='https://wa.me/?text='+encodeURIComponent(txt())}
+ else if(id=='sh'){if(navigator.share)navigator.share({text:txt()}).catch(()=>{});else toast('Fitur bagikan tidak didukung di perangkat ini')}
+ else if(id=='dl'){const d=new Date(),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt()],{type:'text/plain'}));a.download=`Laporan_Alat_${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}.txt`;a.click()}};
+
+// ---------- DIALOG EDIT ----------
+function setDst(v){dst=v;document.querySelectorAll('#f-st button').forEach(b=>b.classList.toggle('a',b.dataset.v==v))}
+function openEdit(i){editI=i;const u=i<0?{kode:'',nama:'',prio:'',st:'ON',ket:''}:cat().unit[i];
+ $('#dt').textContent=i<0?'Tambah unit':'Edit unit';
+ $('#f-kode').value=u.kode;$('#f-nama').value=u.nama;$('#f-prio').value=u.prio||'';$('#f-ket').value=u.ket||'';setDst(u.st);
+ $('#f-del').hidden=i<0;$('#dlg').showModal()}
+$('#f-st').onclick=e=>{if(e.target.dataset.v)setDst(e.target.dataset.v)};
+$('#f-cancel').onclick=()=>$('#dlg').close();
+$('#f-del').onclick=()=>{if(confirm('Hapus unit ini dari daftar?')){cat().unit.splice(editI,1);save();$('#dlg').close();rRows()}};
+$('#f-ok').onclick=()=>{
+ let k=$('#f-kode').value.trim(),n=$('#f-nama').value.trim();
+ if(!k&&!n){toast('Isi minimal Kode atau Nama');return}
+ const u={kode:k||n,nama:n||k,prio:$('#f-prio').value.trim(),st:dst,ket:$('#f-ket').value.trim()};
+ if(editI<0)cat().unit.push(u);else cat().unit[editI]=u;
+ save();$('#dlg').close();rRows()};
+
+// ---------- MULAI ----------
+try{const t=localStorage.getItem('tema');if(t=='dark')$('#thm').click()}catch(e){}
+now();render();
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
