@@ -23,6 +23,7 @@ main{max-width:760px;margin:0 auto;padding:12px 12px calc(86px + env(safe-area-i
 .st span{display:block;font-size:11px;color:var(--mut)}.st b{font-size:22px}
 h3{margin:18px 4px 8px;font-size:15px;color:var(--pri)}
 .cat{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:8px;font-size:16px;min-height:52px}
+.cat.cap{margin-left:18px;width:calc(100% - 18px)}
 .cat i{font-style:normal;font-weight:700;font-size:13px;padding:4px 10px;border-radius:99px;background:#15803d22;color:var(--ok)}
 .cat.bad i{background:var(--badbg);color:var(--bad)}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:10px}
@@ -86,7 +87,7 @@ dialog::backdrop{background:#0009}
 <div id="toast"></div>
 <script>
 // ---------- DATA DEFAULT: kode|nama|prioritas|status(1=ON,0=OFF)|keterangan ----------
-function C(nama,style,txt){return{nama,mode:'count',style,unit:txt.trim().split('\n').map(l=>{const f=l.split('|');return{kode:f[0],nama:f[1],prio:f[2],st:f[3]=='1'?'ON':'OFF',ket:f[4]||''}})}}
+function C(nama,style,txt,cap){return{nama,mode:'count',style,cap:cap?1:0,unit:txt.trim().split('\n').map(l=>{const f=l.split('|');return{kode:f[0],nama:f[1],prio:f[2],st:f[3]=='1'?'ON':'OFF',ket:f[4]||''}})}}
 function T(nama,st='ON',ket=''){return{nama,mode:'single',st,ket}}
 function defaults(){return[
 {judul:'Peralatan Geofisika',kat:[
@@ -132,6 +133,8 @@ C('Sirine Rekayasa','space',`
 SRN1|Sport Center Pantai Panjang||1|
 SRN2|Kantor PMI Kota Bengkulu||1|
 SRN3|Kesbangpol Kota Bengkulu||1|`),
+C('Pengendali Sirine','paren',`
+PRS1|BPBD. Prov Bengkulu||1|`,1),
 C('Accelero Non Colo','space',`
 BEFA|Stasiun Meteorologi Klas III Fatmawati Bengkulu|P-3|1|
 BEKI|Stageof Kepahiang Bengkulu|P-3|1|
@@ -200,6 +203,8 @@ let view='list',sel=null,q='',onlyOff=false,tgl='',jam='',editI=-1,dst='ON';
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}};
 const cat=()=>data[sel[0]].kat[sel[1]];
 const cnt=c=>c.mode=='count'?[c.unit.filter(u=>u.st=='ON').length,c.unit.length]:[norm(c.st)?1:0,1];
+function migrate(){data.forEach(s=>{const n=s.kat.map(c=>c.nama),i=n.indexOf('Sirine Rekayasa');if(i>=0&&!n.includes('Pengendali Sirine')){s.kat.splice(i+1,0,defaults()[0].kat.find(c=>c.nama=='Pengendali Sirine'));save()}})}
+migrate();
 function now(){const d=new Date();tgl=`${d.getDate()} ${BULAN[d.getMonth()]} ${d.getFullYear()}`;jam=String(d.getHours()).padStart(2,'0')+'.'+String(d.getMinutes()).padStart(2,'0')}
 let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('s');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('s'),2600)}
 
@@ -211,7 +216,9 @@ function line(c,u){const k=(u.ket||'').trim();let s;
  return '* '+s}
 function msg(){
  const o=['Kepada Yth, Pimpinan',`Berikut Laporan peralatan Operasional Utama Stasiun Geofisika Kepahiang per ${tgl} Pukul ${jam} WIB`,''];
- data.forEach(s=>{o.push(s.judul+':');s.kat.forEach((c,i)=>{const[a,b]=cnt(c);o.push(c.mode=='count'?`${i+1}. ${c.nama} : Total ${b} ON ${a}`:`${i+1}. ${c.nama} : ${c.st}`)});o.push('')});
+ data.forEach(s=>{o.push(s.judul+':');let n=0;s.kat.forEach(c=>{const[a,b]=cnt(c);
+  if(c.cap){const l=c.unit.map(u=>u.nama).join(', ');o.push(`   - ${c.nama} : Total ${b} ON ${a}`+(l?` (${l})`:''));return}
+  n++;o.push(c.mode=='count'?`${n}. ${c.nama} : Total ${b} ON ${a}`:`${n}. ${c.nama} : ${c.st}`)});o.push('')});
  o.push('Demikian laporan kami, semoga berkenan, terima kasih.');
  const bl=[];
  data.forEach(s=>s.kat.forEach(c=>{let l;
@@ -232,8 +239,8 @@ function render(){
 function rList(){
  let ok=0,tot=0;data.forEach(s=>s.kat.forEach(c=>{const[a,b]=cnt(c);ok+=a;tot+=b}));
  let h=`<div class="stats"><div class="st"><span>Total</span><b>${tot}</b></div><div class="st"><span>Normal</span><b style="color:var(--ok)">${ok}</b></div><div class="st"><span>Bermasalah</span><b style="color:var(--bad)">${tot-ok}</b></div><div class="st"><span>Tersedia</span><b>${tot?Math.round(ok/tot*100):0}%</b></div></div>`;
- data.forEach((s,si)=>{h+=`<h3>${esc(s.judul)}</h3>`;s.kat.forEach((c,ci)=>{const[a,b]=cnt(c);
-  h+=`<button class="cat${a<b?' bad':''}" data-s="${si}" data-c="${ci}"><span>${ci+1}. ${esc(c.nama)}</span><i>${c.mode=='count'?a+' / '+b:esc(c.st)}</i></button>`})});
+ data.forEach((s,si)=>{h+=`<h3>${esc(s.judul)}</h3>`;let n=0;s.kat.forEach((c,ci)=>{const[a,b]=cnt(c);
+  h+=`<button class="cat${a<b?' bad':''}${c.cap?' cap':''}" data-s="${si}" data-c="${ci}"><span>${c.cap?'↳ ':++n+'. '}${esc(c.nama)}</span><i>${c.mode=='count'?a+' / '+b:esc(c.st)}</i></button>`})});
  h+=`<div class="btns"><button class="b d" id="reset">Reset ke data awal</button></div>`;
  $('#v-list').innerHTML=h}
 function rDet(){
